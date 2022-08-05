@@ -1,0 +1,22 @@
+# Dockerfileとdocker-compose.ymlが準備できたら、以下のコマンドを入力する
+
+# コンテナのビルド
+docker-compose build 
+
+# 「front」をdocker-compose.ymlで定義しているサービス名似それぞれ変更したら、以下のコマンドを入力
+# すると、dockerコンテナ内でreactとTypescriptによる開発環境を構築できる（javascript準拠にしたければ「--template typescript」は外す）
+# 「reactApp」をアプリ名にしても良いが、dockerコンテナに入れ子の形でreactが生成されるので、いっそrailsのようにappで統一したほうが使いやすいかもしれない
+# アプリ名に大文字を使うとエラーになる
+docker-compose run --rm front sh -c "npm install -g create-react-app && create-react-app app --template typescript"
+docker-compose run --rm front sh -c "npm install -g create-react-app && create-react-app app"
+
+# 作成したreactアプリ内に移動する
+cd app
+
+# アプリ内に移動したら、以下のコマンドでバックグラウンド起動して動作確認する
+nohup npm start &
+
+# reactのdocker環境に、styled componentを導入する
+cd app
+npm install --save styled-components
+#別解？ docker-compose run --rm front sh -c "npm install --save styled-components"
