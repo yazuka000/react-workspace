@@ -19,3 +19,5 @@ const Notification = (props) => {
     </section>
   );
 };
+
+export default Notification;
