@@ -56,14 +56,17 @@ export async function addQuote(quoteData) {
   return null;
 }
 
-export async function addComment(commentData, quoteId) {
-  const response = await fetch(`${FIREBASE_DOMAIN}/comments/${quoteId}.json`, {
-    method: "POST",
-    body: JSON.stringify(commentData),
-    headers: {
-      "Content-Type": "application/json"
+export async function addComment(requestData) {
+  const response = await fetch(
+    `${FIREBASE_DOMAIN}/comments/${requestData.quoteId}.json`,
+    {
+      method: "POST",
+      body: JSON.stringify(requestData.commentData),
+      headers: {
+        "Content-Type": "application/json"
+      }
     }
-  });
+  );
   const data = await response.json();
 
   if (!response.ok) {
@@ -73,7 +76,7 @@ export async function addComment(commentData, quoteId) {
   return { commentId: data.name };
 }
 
-export async function getAllComments(quoteId){
+export async function getAllComments(quoteId) {
   const response = await fetch(`${FIREBASE_DOMAIN}/comments/${quoteId}.json`);
 
   const data = await response.json();
@@ -84,10 +87,10 @@ export async function getAllComments(quoteId){
 
   const transformedComments = [];
 
-  for(const key in data){
+  for (const key in data) {
     const commentObj = {
       id: key,
-      ...data[key],
+      ...data[key]
     };
 
     transformedComments.push(commentObj);
