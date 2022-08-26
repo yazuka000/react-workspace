@@ -55,7 +55,7 @@ course = 12341;
 
 // Functions & types
 
-function add(a: number, b: number) {
+function addNum(a: number, b: number) {
   return a + b;
 }
 
